@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  #trotar-section {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  @media screen and (max-width: 480px) {
+    /* Estilos para dispositivos con un ancho máximo de 480px (como teléfonos) */
+    body {
+      overflow-x: hidden;
+    }
+  
+    #trotar-section {
+      width: 100%;
+    }
+  }
+  
