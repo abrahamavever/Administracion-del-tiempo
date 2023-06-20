@@ -3,6 +3,7 @@ let trotarDuracionInicial = 70;
 let trotarDuracionIncremento = 10;
 let trotarNivel = 1;
 let cuentaRegresiva;
+let sonidoAlerta = new Audio('alerta.mp3');
 
 // Función para incrementar el nivel de trotar
 function aumentarNivelTrotar() {
@@ -25,8 +26,11 @@ function aumentarNivelTrotar() {
   
       if (segundosRestantes <= 0) {
         clearInterval(cuentaRegresiva);
-        alert("¡Tiempo agotado!");
+        reproducirSonidoAlerta();
       }
     }, 1000);
   }
 
+  function reproducirSonidoAlerta() {
+    sonidoAlerta.play();
+  }
