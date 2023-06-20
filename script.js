@@ -1,88 +1,106 @@
-class TrotarManager {
-    constructor() {
-      this.trotarDuracionInicial = 70;
-      this.trotarDuracionIncremento = 10;
-      this.trotarNivel = 1;
-      this.cuentaRegresiva = null;
-      this.sonidoAlerta = new Audio('alerta.mp3');
-      this.nivelGuardado = localStorage.getItem("nivelTrotar");
+class ActividadManager {
+    constructor(duracionInicial, duracionIncremento, actividadNombre) {
+      this.actividadDuracionInicial = duracionInicial;
+      this.actividadDuracionIncremento = duracionIncremento;
+      this.actividadNivel = 1;
+      this.actividadCuentaRegresiva = null;
+      this.actividadSonidoAlerta = new Audio('alerta.mp3');
+      this.actividadNivelGuardado = localStorage.getItem(`nivel${actividadNombre}`);
   
-      if (this.nivelGuardado) {
-        this.trotarNivel = parseInt(this.nivelGuardado);
+      if (this.actividadNivelGuardado) {
+        this.actividadNivel = parseInt(this.actividadNivelGuardado);
       } else {
-        this.guardarNivelTrotar();
-        this.nivelGuardado = this.trotarNivel.toString();
+        this.guardarNivelActividad(actividadNombre);
+        this.actividadNivelGuardado = this.actividadNivel.toString();
       }
   
-      this.actualizarDatosTrotar();
+      this.actualizarDatosActividad(actividadNombre);
     }
   
-    guardarNivelTrotar() {
-      localStorage.setItem("nivelTrotar", this.trotarNivel.toString());
+    guardarNivelActividad(actividadNombre) {
+      localStorage.setItem(`nivel${actividadNombre}`, this.actividadNivel.toString());
     }
   
-    actualizarDatosTrotar() {
-      document.getElementById("trotar-nivel").textContent = this.trotarNivel;
-      document.getElementById("trotar-duracion").textContent = this.calcularDuracionTrotar();
-    }
+    actualizarDatosActividad(actividadNombre) {
+      const nivelElement = document.getElementById(`${actividadNombre}-nivel`);
+      const duracionElement = document.getElementById(`${actividadNombre}-duracion`);
   
-    calcularDuracionTrotar() {
-      return this.trotarDuracionInicial + (this.trotarNivel - 1) * this.trotarDuracionIncremento;
-    }
+      if (nivelElement) {
+        nivelElement.textContent = this.actividadNivel;
+      }
   
-    aumentarNivelTrotar() {
-      this.trotarNivel++;
-      this.guardarNivelTrotar();
-      this.actualizarDatosTrotar();
-      console.log(`¡Has subido de nivel en trotar! Nivel actual: ${this.trotarNivel}`);
-      console.log(`Nueva duración de trotar: ${this.calcularDuracionTrotar()} segundos`);
-    }
-  
-    bajarNivelTrotar() {
-      if (this.trotarNivel > 1) {
-        this.trotarNivel--;
-        this.guardarNivelTrotar();
-        this.actualizarDatosTrotar();
-        console.log(`¡Has bajado de nivel en trotar! Nivel actual: ${this.trotarNivel}`);
-        console.log(`Nueva duración de trotar: ${this.calcularDuracionTrotar()} segundos`);
+      if (duracionElement) {
+        duracionElement.textContent = this.calcularDuracionActividad();
       }
     }
   
-    empezarCuentaRegresiva() {
-      const duracionInicial = this.calcularDuracionTrotar();
+    calcularDuracionActividad() {
+      return this.actividadDuracionInicial + (this.actividadNivel - 1) * this.actividadDuracionIncremento;
+    }
+  
+    aumentarNivelActividad(actividadNombre) {
+      this.actividadNivel++;
+      this.guardarNivelActividad(actividadNombre);
+      this.actualizarDatosActividad(actividadNombre);
+      console.log(`¡Has subido de nivel en ${actividadNombre}! Nivel actual: ${this.actividadNivel}`);
+      console.log(`Nueva duración de ${actividadNombre}: ${this.calcularDuracionActividad()} segundos`);
+    }
+  
+    bajarNivelActividad(actividadNombre) {
+      if (this.actividadNivel > 1) {
+        this.actividadNivel--;
+        this.guardarNivelActividad(actividadNombre);
+        this.actualizarDatosActividad(actividadNombre);
+        console.log(`¡Has bajado de nivel en ${actividadNombre}! Nivel actual: ${this.actividadNivel}`);
+        console.log(`Nueva duración de ${actividadNombre}: ${this.calcularDuracionActividad()} segundos`);
+      }
+    }
+  
+    empezarCuentaRegresiva(actividadNombre) {
+      const duracionInicial = this.calcularDuracionActividad();
       let segundosRestantes = duracionInicial;
-      document.getElementById("trotar-duracion").textContent = segundosRestantes;
+      const duracionElement = document.getElementById(`${actividadNombre}-duracion`);
   
-      this.cuentaRegresiva = setInterval(() => {
+      if (duracionElement) {
+        duracionElement.textContent = segundosRestantes;
+      }
+  
+      this.actividadCuentaRegresiva = setInterval(() => {
         segundosRestantes--;
-        document.getElementById("trotar-duracion").textContent = segundosRestantes;
+        if (duracionElement) {
+          duracionElement.textContent = segundosRestantes;
+        }
   
         if (segundosRestantes <= 0) {
-          clearInterval(this.cuentaRegresiva);
+          clearInterval(this.actividadCuentaRegresiva);
           this.reproducirSonidoAlerta();
-          this.almacenarDatos("Trotar");
-          this.reiniciarCuentaRegresiva();
+          this.almacenarDatos(actividadNombre);
+          this.reiniciarCuentaRegresiva(actividadNombre);
         }
       }, 1000);
     }
   
-    reproducirSonidoAlerta() {
-      this.sonidoAlerta.play();
+    reproducirSonidoAlerta(actividadNombre) {
+      this.actividadSonidoAlerta.play();
       setTimeout(() => {
-        this.reiniciarCuentaRegresiva();
+        this.reiniciarCuentaRegresiva(actividadNombre);
       }, 2000);
     }
   
-    reiniciarCuentaRegresiva() {
-      clearInterval(this.cuentaRegresiva);
-      document.getElementById("trotar-duracion").textContent = this.calcularDuracionTrotar();
+    reiniciarCuentaRegresiva(actividadNombre) {
+      clearInterval(this.actividadCuentaRegresiva);
+      const duracionElement = document.getElementById(`${actividadNombre}-duracion`);
+  
+      if (duracionElement) {
+        duracionElement.textContent = this.calcularDuracionActividad();
+      }
     }
   
     almacenarDatos(accion) {
       const fechaHora = new Date().toLocaleString();
       const datos = {
-        nivel: this.trotarNivel,
-        tiempo: this.calcularDuracionTrotar(),
+        nivel: this.actividadNivel,
+        tiempo: this.calcularDuracionActividad(),
         accion: accion,
         fechaHora: fechaHora
       };
@@ -107,25 +125,56 @@ class TrotarManager {
       }
     }
   }
-
+  
+  class TrotarManager extends ActividadManager {
+    constructor() {
+      super(70, 10, "trotar");
+    }
+  }
+  
+  class LecturaManager extends ActividadManager {
+    constructor() {
+      super(10, 5, "lectura");
+    }
+  }
+  
   const trotarManager = new TrotarManager();
-
-function aumentarNivelTrotar() {
-  trotarManager.aumentarNivelTrotar();
-}
-
-function bajarNivelTrotar() {
-  trotarManager.bajarNivelTrotar();
-}
-
-function empezarCuentaRegresiva() {
-  trotarManager.empezarCuentaRegresiva();
-}
-
-function almacenarDatos() {
-  trotarManager.almacenarDatos("Trotar");
-}
-
-function mostrarDatosAlmacenados() {
-  trotarManager.mostrarDatosAlmacenados();
-}
+  const lecturaManager = new LecturaManager();
+  
+  function aumentarNivelTrotar() {
+    trotarManager.aumentarNivelActividad("trotar");
+  }
+  
+  function bajarNivelTrotar() {
+    trotarManager.bajarNivelActividad("trotar");
+  }
+  
+  function empezarCuentaRegresiva() {
+    trotarManager.empezarCuentaRegresiva("trotar");
+  }
+  
+  function aumentarNivelLectura() {
+    lecturaManager.aumentarNivelActividad("lectura");
+  }
+  
+  function bajarNivelLectura() {
+    lecturaManager.bajarNivelActividad("lectura");
+  }
+  
+  function empezarCuentaRegresivaLectura() {
+    lecturaManager.empezarCuentaRegresiva("lectura");
+  }
+  
+  function almacenarDatos() {
+    trotarManager.almacenarDatos("Trotar");
+  }
+  
+  function almacenarDatosLectura() {
+    lecturaManager.almacenarDatos("Lectura");
+  }
+  
+  function mostrarDatosAlmacenados() {
+    trotarManager.mostrarDatosAlmacenados();
+    lecturaManager.mostrarDatosAlmacenados();
+  }
+  
