@@ -8,29 +8,54 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Administración de mi tiempo</h1>
-    <div id="trotar-section">
-        <h2>Trotar</h2>
-        <p>Nivel: <span id="trotar-nivel"></span></p>
-        <p>Duración: <span id="trotar-duracion"></span> segundos</p>
-        <button onclick="bajarNivelTrotar()">Bajar de nivel</button>
-<button onclick="aumentarNivelTrotar()">Subir de nivel</button>
-<button onclick="empezarCuentaRegresiva()">Empezar</button>
-
-    </div>
-    
-    <div id="lectura-section">
-        <h2>Lectura</h2>
-        <p>Nivel: <span id="lectura-nivel"></span></p>
-        <p>Duración: <span id="lectura-duracion"></span> segundos</p>
+    <div class="container">
+        <h1>Administración de mi tiempo</h1>
+        <div id="trotar-section" class="activity-section">
+            <h2>Trotar</h2>
+            <div class="activity-details">
+                <p>Nivel: <span id="trotar-nivel"></span></p>
+                <p>Duración: <span id="trotar-duracion"></span> segundos</p>
+            </div>
+            <div class="activity-buttons">
+                <button onclick="bajarNivelTrotar()">Bajar de nivel</button>
+                <button onclick="aumentarNivelTrotar()">Subir de nivel</button>
+                <button onclick="empezarCuentaRegresiva()">Empezar</button>
+            </div>
+        </div>
         
-        <button onclick="bajarNivelLectura()">Bajar de nivel</button>
-        <button onclick="aumentarNivelLectura()">Subir de nivel</button>
-        <button onclick="empezarCuentaRegresivaLectura()">Empezar</button>
+        <div id="lectura-section" class="activity-section">
+            <h2>Lectura</h2>
+            <div class="activity-details">
+                <p>Nivel: <span id="lectura-nivel"></span></p>
+                <p>Duración: <span id="lectura-duracion"></span> segundos</p>
+            </div>
+            <div class="activity-buttons">
+                <button onclick="bajarNivelLectura()">Bajar de nivel</button>
+                <button onclick="aumentarNivelLectura()">Subir de nivel</button>
+                <button onclick="empezarCuentaRegresivaLectura()">Empezar</button>
+            </div>
+        </div>
+        
+        <h2>Datos Almacenados</h2>
+        <table id="datos-table">
+            <thead>
+                <tr>
+                    <th>Nivel</th>
+                    <th>Tiempo (segundos)</th>
+                    <th>Acción</th>
+                    <th>Fecha y Hora</th>
+                </tr>
+            </thead>
+            <tbody id="datos-almacenados"></tbody>
+        </table>
+
+        <div class="data-buttons">
+            <button onclick="almacenarDatos()">Almacenar datos de Trotar</button>
+            <button onclick="almacenarDatosLectura()">Almacenar datos de Lectura</button>
+            <button onclick="limpiarDatos()">Limpiar datos almacenados</button>
+        </div>
     </div>
-    
-    
+
     <script src="script.js"></script>
 </body>
 </html>
-
