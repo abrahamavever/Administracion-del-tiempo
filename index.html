@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administración de mi tiempo</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
 </head>
 <body>
     <h1>Administración de mi tiempo</h1>
     <div id="trotar-section">
         <h2>Trotar</h2>
-        <p>Nivel: <span id="trotar-nivel">1</span></p>
-        <p>Duración: <span id="trotar-duracion">70</span> segundos</p>
+        <p>Nivel: <span id="trotar-nivel"></span></p>
+        <p>Duración: <span id="trotar-duracion"></span> segundos</p>
         <button onclick="empezarCuentaRegresiva()">Empezar</button>
+        <button onclick="bajarNivelTrotar()">Bajar de nivel</button>
         <button onclick="aumentarNivelTrotar()">Subir de nivel</button>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
+
